@@ -63,7 +63,7 @@
 #
 # This was done for you when you ran `0_bootstrap.py`, so the following code is set up to run as is.
 # It begins with imports and creating a `SparkSession`.
-
+!pip3 install pyspark
 import os
 import sys
 from pyspark.sql import SparkSession
@@ -159,7 +159,7 @@ if ('telco_churn' not in list(spark.sql("show tables in default").toPandas()['ta
         .saveAsTable(
             'default.telco_churn'
         )
-import cml.data_v1 as cmldata
+#import cml.data_v1 as cmldata
 
 
 # Show the data in the hive table
