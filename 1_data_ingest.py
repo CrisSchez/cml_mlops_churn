@@ -158,22 +158,22 @@ spark.sql("show tables in default").show()
 # This is here to create the table in Hive used be the other parts of the project, if it
 # does not already exist.
 
-if ('telco_churn' not in list(spark.sql("show tables in default").toPandas()['tableName'])):
+if ('telco_pvc' not in list(spark.sql("show tables in default").toPandas()['tableName'])):
     print("creating the telco_churn database")
     telco_data\
         .write.format("parquet")\
         .mode("overwrite")\
         .saveAsTable(
-            'default.telco_churn'
+            'default.telco_pvc'
         )
 #import cml.data_v1 as cmldata
 
 
 # Show the data in the hive table
-spark.sql("select * from default.telco_churn").show()
+spark.sql("select * from default.telco_pvc").show()
 
 # To get more detailed information about the hive table you can run this:
-spark.sql("describe formatted default.telco_churn").toPandas()
+spark.sql("describe formatted default.telco_pvc").toPandas()
 
 # Other ways to access data
 
