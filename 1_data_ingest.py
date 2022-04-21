@@ -63,12 +63,19 @@
 #
 # This was done for you when you ran `0_bootstrap.py`, so the following code is set up to run as is.
 # It begins with imports and creating a `SparkSession`.
-!pip3 install pyspark
+# Instantiate API Wrapper
+
+# Set the STORAGE environment variable
+
 import os
 import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 
+storage = "/user/" + os.getenv("HADOOP_USER_NAME")
+#storage_environment_params = {"STORAGE":storage}
+#storage_environment = cml.create_environment_variable(storage_environment_params)
+os.environ["STORAGE"] = storage
 
 
 spark = SparkSession\
