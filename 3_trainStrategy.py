@@ -8,6 +8,7 @@ except:
   from pyspark.sql import SparkSession
   
 !pip3 install -r requirements.txt  
+!pip3 install pickle
 import sys
 import os
 import os
@@ -18,6 +19,7 @@ import dill
 import pandas as pd
 import numpy as np
 import cdsw
+import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
