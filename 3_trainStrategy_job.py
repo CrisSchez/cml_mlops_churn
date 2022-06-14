@@ -33,7 +33,11 @@ PROJECT_NAME = os.getenv("CDSW_PROJECT")
 
 # Instantiate API Wrapper
 cml = CMLBootstrap(HOST, USERNAME, API_KEY, PROJECT_NAME)
-
+runtimes=cml.get_runtimes()
+runtimes=runtimes['runtimes']
+runtimesdf = pd.DataFrame.from_dict(runtimes, orient='columns')
+runtimeid=runtimesdf.loc[(runtimesdf['editor'] == 'Workbench') & (runtimesdf['kernel'] == 'Python 3.7') & (runtimesdf['edition'] == 'Standard')]['id']
+id_rt=runtimeid.values[0]
 
 spark = SparkSession\
     .builder\
@@ -253,7 +257,7 @@ if len(sys.argv) == 2:
               "memoryMb": 2048,
               "nvidiaGPUs": 0,
               "replicationPolicy": {"type": "fixed", "numReplicas": 1},
-              "environment": {},"runtimeId":90}
+              "environment": {},"runtimeId":int(id_rt)}
 
             cml.rebuild_model(build_model_params)
             sys.argv=[]
@@ -265,7 +269,7 @@ if len(sys.argv) == 2:
           
                       # Create the YAML file for the model lineage
             yaml_text = \
-                """"ModelChurn":
+                """"ModelOpsChurn":
               hive_table_qualified_names:                # this is a predefined key to link to training data
                 - "default.telco_churn@cm"               # the qualifiedName of the hive_table object representing                
               metadata:                                  # this is a predefined key for additional metadata
@@ -295,7 +299,7 @@ if len(sys.argv) == 2:
                 "memoryMb": 2048,
                 "nvidiaGPUs": 0,
                 "replicationPolicy": {"type": "fixed", "numReplicas": 1},
-                "environment": {},"runtimeId":90}
+                "environment": {},"runtimeId":int(id_rt)}
             print("creando nuevo modelo")
             new_model_details = cml.create_model(create_model_params)
             access_key = new_model_details["accessKey"]  # todo check for bad response
